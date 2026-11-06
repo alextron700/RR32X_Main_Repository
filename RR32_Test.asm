@@ -35,21 +35,21 @@ TABLE[0,0,0,0]
 ReturnTable:
 TABLE[0,0,0,0]
 Add:
-ADD R02, 0, ArgumentTable
-LDM R00 M$[R02 + 0]
-LDM R01 M$[R02 + 1]
-ADD R02, R00, R01
-STM M$[ReturnTable] R02
-RET
+	ADD R02, 0, ArgumentTable
+	LDM R00 M$[R02 + 0]
+	LDM R01 M$[R02 + 1]
+	ADD R02, R00, R01
+	STM M$[ReturnTable] R02
+	RET
 
 Main:
-LDM R00 M$[a]
-LDM R01 M$[b]
-ADD R02, 0, ArgumentTable
-STM M$[R02 + 0], R00
-STM M$[R02 + 1], R01
-CAL Add
-LDM R00 M$[ReturnTable]
+	LDM R00 M$[a]
+	LDM R01 M$[b]
+	ADD R02, 0, ArgumentTable
+	STM M$[R02 + 0], R00
+	STM M$[R02 + 1], R01
+	CAL Add
+	LDM R00 M$[ReturnTable]
 
 
 ; ABI Demo, more properly:
@@ -65,33 +65,33 @@ TABLE[0,0,0,0]
 CurrentBank:
 TABLE[0]
 Add:
-EAM.SET R01
-LDM R04, M$[R00 + 0]
-LDM R05, M$[R00 + 1]
-ADD R06, R04, R05
-EAM.SET R02
-STM M$[R03 + 0], R06
-RET
+	EAM.SET R01
+	LDM R04, M$[R00 + 0]
+	LDM R05, M$[R00 + 1]
+	ADD R06, R04, R05
+	EAM.SET R02
+	STM M$[R03 + 0], R06
+	RET
 
 
 Main:
-LDM R00 M$[a]
-LDM R01 M$[b]
-ADD R02, 0, ArgumentTable
-STM M$[R02 + 0], R00
-STM M$[R02 + 1], R01
-EAM.GET R00
-STM M$[Current_Bank], R00
+	LDM R00 M$[a]
+	LDM R01 M$[b]
+	ADD R02, 0, ArgumentTable
+	STM M$[R02 + 0], R00
+	STM M$[R02 + 1], R01
+	EAM.GET R00
+	STM M$[Current_Bank], R00
+
 ;load pointers to argument and return table pointers.
+	EAM.SET ArgumentTable.
+	ADD R00,0, ArgumentTable
+	EAM.GET R01
 
-EAM.SET ArgumentTable.
-ADD R00,0, ArgumentTable
-EAM.GET R01
-
-ADD R02, 0, ReturnTable
-EAM.SET ReturnTable
-EAM.GET R03
-
-EAM.SET 0
-CAL Add
-LDM R00 M$[ReturnTable]
+	ADD R02, 0, ReturnTable
+	EAM.SET ReturnTable	
+	EAM.GET R03
+; actually call Add 
+	EAM.SET Add
+	CAL Add
+	LDM R00 M$[ReturnTable]
