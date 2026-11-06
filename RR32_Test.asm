@@ -61,6 +61,9 @@ ArgumentTable:
 TABLE[0,0,0,0]
 ReturnTable:
 TABLE[0,0,0,0]
+
+CurrentBank:
+TABLE[0]
 Add:
 EAM.SET R01
 LDM R04, M$[R00 + 0]
@@ -77,12 +80,18 @@ LDM R01 M$[b]
 ADD R02, 0, ArgumentTable
 STM M$[R02 + 0], R00
 STM M$[R02 + 1], R01
-ADD R00,0, ArgumentTable
+EAM.GET R00
+STM M$[Current_Bank], R00
+;load pointers to argument and return table pointers.
+
 EAM.SET ArgumentTable.
+ADD R00,0, ArgumentTable
 EAM.GET R01
+
 ADD R02, 0, ReturnTable
 EAM.SET ReturnTable
 EAM.GET R03
+
 EAM.SET 0
 CAL Add
 LDM R00 M$[ReturnTable]
