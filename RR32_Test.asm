@@ -1,4 +1,4 @@
-define Terminal 0x83764625
+define Terminal = 0x83764625
 
 STJ print_string
 JMP
@@ -23,4 +23,4 @@ loop:
 		dont_advance:
 		SUB R01, R01, 1
 	STJ loop
-	JMP
+	JNE R03, 0
