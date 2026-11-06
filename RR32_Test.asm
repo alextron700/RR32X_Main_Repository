@@ -20,7 +20,7 @@ loop:
 		STJ dont_advance
 		JNE R03, 0
 			ADD R00, R00, 1
-		dont_advance:
+dont_advance:
 		SUB R01, R01, 1
 	STJ loop
 	JNE R03, 0
