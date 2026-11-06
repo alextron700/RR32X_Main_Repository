@@ -26,9 +26,14 @@ dont_advance:
 		SUB R01, R01, 1
 	STJ loop
 	JNE R03, 0
+
+
+
 ; ABI Demo, simple
 define a = 15
 define b = 12
+STJ Main
+JMP
 
 ArgumentTable:
 TABLE[0,0,0,0]
@@ -56,6 +61,9 @@ Main:
 
 define a = 15
 define b = 12
+
+STJ Main
+JMP
 
 ArgumentTable:
 TABLE[0,0,0,0]
