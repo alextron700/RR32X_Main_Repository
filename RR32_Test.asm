@@ -1,3 +1,5 @@
+
+; hello world test
 define Terminal = 0x83764625
 
 STJ print_string
@@ -24,3 +26,63 @@ dont_advance:
 		SUB R01, R01, 1
 	STJ loop
 	JNE R03, 0
+; ABI Demo, simple
+define a = 15
+define b = 12
+
+ArgumentTable:
+TABLE[0,0,0,0]
+ReturnTable:
+TABLE[0,0,0,0]
+Add:
+ADD R02, 0, ArgumentTable
+LDM R00 M$[R02 + 0]
+LDM R01 M$[R02 + 1]
+ADD R02, R00, R01
+STM M$[ReturnTable] R02
+RET
+
+Main:
+LDM R00 M$[a]
+LDM R01 M$[b]
+ADD R02, 0, ArgumentTable
+STM M$[R02 + 0], R00
+STM M$[R02 + 1], R01
+CAL Add
+LDM R00 M$[ReturnTable]
+
+
+; ABI Demo, more properly:
+
+define a = 15
+define b = 12
+
+ArgumentTable:
+TABLE[0,0,0,0]
+ReturnTable:
+TABLE[0,0,0,0]
+Add:
+EAM.SET R01
+LDM R04, M$[R00 + 0]
+LDM R05, M$[R00 + 1]
+ADD R06, R04, R05
+EAM.SET R02
+STM M$[R03 + 0], R06
+RET
+
+
+Main:
+LDM R00 M$[a]
+LDM R01 M$[b]
+ADD R02, 0, ArgumentTable
+STM M$[R02 + 0], R00
+STM M$[R02 + 1], R01
+ADD R00,0, ArgumentTable
+EAM.SET ArgumentTable.
+EAM.GET R01
+ADD R02, 0, ReturnTable
+EAM.SET ReturnTable
+EAM.GET R03
+EAM.SET 0
+CAL Add
+LDM R00 M$[ReturnTable]
